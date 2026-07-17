@@ -13,6 +13,12 @@ poki_sdk.REWARDED_BREAK_ERROR = nil
 poki_sdk.REWARDED_BREAK_SUCCESS = nil
 ---@type number
 poki_sdk.REWARDED_BREAK_START = nil
+---@type string
+poki_sdk.DEVICE_CATEGORY_DESKTOP = nil
+---@type string
+poki_sdk.DEVICE_CATEGORY_MOBILE = nil
+---@type string
+poki_sdk.DEVICE_CATEGORY_TABLET = nil
 ---Signals that gameplay has started.
 function poki_sdk.gameplay_start() end
 ---Signals that gameplay has stopped.
@@ -72,6 +78,18 @@ function poki_sdk.login(callback) end
 ---Opens an external link in a new browser tab.
 ---@param url string
 function poki_sdk.open_external_link(url) end
+---@alias PokiDeviceCategory
+---| 'desktop'
+---| 'mobile'
+---| 'tablet'
+
+---Returns the current device category.
+---@class PokiDeviceInfo
+---@field category PokiDeviceCategory|nil
+
+---Returns the current device info object.
+---@return PokiDeviceInfo info
+function poki_sdk.get_device_info() end
 ---Opens a Poki leaderboard by id.
 ---@param leaderboard_id number
 function poki_sdk.show_leaderboard(leaderboard_id) end

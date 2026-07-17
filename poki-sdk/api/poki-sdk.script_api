@@ -197,6 +197,20 @@
 
 #*****************************************************************************************************
 
+  - name: get_device_info
+    type: function
+
+    return:
+    - name: info
+      type: table
+      desc: "Device info object. Currently contains:
+           `info.category` with one of
+           `poki_sdk.DEVICE_CATEGORY_DESKTOP`,
+           `poki_sdk.DEVICE_CATEGORY_MOBILE`,
+           `poki_sdk.DEVICE_CATEGORY_TABLET`"
+
+#*****************************************************************************************************
+
   - name: show_leaderboard
     type: function
 
@@ -230,5 +244,14 @@
     type: number
   - name: REWARDED_BREAK_START
     type: number
+
+#*****************************************************************************************************
+
+  - name: DEVICE_CATEGORY_DESKTOP
+    type: string
+  - name: DEVICE_CATEGORY_MOBILE
+    type: string
+  - name: DEVICE_CATEGORY_TABLET
+    type: string
 
 #*****************************************************************************************************

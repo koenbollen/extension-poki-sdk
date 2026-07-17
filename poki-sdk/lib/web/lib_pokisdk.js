@@ -198,6 +198,17 @@ var LibPokiSdk = {
         PokiSDK.openExternalLink(UTF8ToString(url));
     },
 
+    PokiSdkJs_GetDeviceInfo: function() {
+        var deviceCategory = null;
+
+        var deviceInfo = PokiSDK.getDeviceInfo();
+        if (deviceInfo && typeof deviceInfo.category === "string") {
+            deviceCategory = deviceInfo.category;
+        }
+
+        return stringToUTF8OnStack(deviceCategory);
+    },
+
     PokiSdkJs_ShowLeaderboard: function(leaderboard_id) {
         PokiSDK.showLeaderboard(leaderboard_id);
     },

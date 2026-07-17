@@ -60,6 +60,7 @@ extern "C" {
 
     void PokiSdkJs_Measure(const char* category, const char* what, const char* action);
     void PokiSdkJs_OpenExternalLink(const char* url);
+    const char* PokiSdkJs_GetDeviceInfo();
 
     void PokiSdkJs_MovePill(double topPercent, double topPx);
 
@@ -70,6 +71,10 @@ extern "C" {
     void PokiSdkJs_ShowLeaderboard(int leaderboard_id);
     void PokiSdkJs_SubmitScore(const char* leaderboard_key, int score);
 }
+
+static const char* DEVICE_CATEGORY_DESKTOP = "desktop";
+static const char* DEVICE_CATEGORY_MOBILE = "mobile";
+static const char* DEVICE_CATEGORY_TABLET = "tablet";
 
 static dmScript::LuaCallbackInfo* pokiSdk_Callbacks[CALLBACK_SLOT_COUNT] = {0x0};
 
@@ -589,6 +594,27 @@ static int PokiSdk_OpenExternalLink(lua_State* L)
     return 0;
 }
 
+static int PokiSdk_GetDeviceInfo(lua_State* L)
+{
+    DM_LUA_STACK_CHECK(L, 1);
+    const char* device_category = PokiSdkJs_GetDeviceInfo();
+
+    lua_createtable(L, 0, 1);
+
+    if (device_category)
+    {
+        lua_pushstring(L, device_category);
+        lua_setfield(L, -2, "category");
+    }
+    else
+    {
+        lua_pushnil(L);
+        lua_setfield(L, -2, "category");
+    }
+
+    return 1;
+}
+
 static int PokiSdk_ShowLeaderboard(lua_State* L)
 {
     DM_LUA_STACK_CHECK(L, 0);
@@ -624,6 +650,7 @@ static const luaL_reg Module_methods[] =
     {"get_token", PokiSdk_GetToken},
     {"login", PokiSdk_Login},
     {"open_external_link", PokiSdk_OpenExternalLink},
+    {"get_device_info", PokiSdk_GetDeviceInfo},
     {"show_leaderboard", PokiSdk_ShowLeaderboard},
     {"submit_score", PokiSdk_SubmitScore},
     {0, 0}
@@ -631,6 +658,10 @@ static const luaL_reg Module_methods[] =
 
 #define SETCONSTANT(name, value) \
     lua_pushnumber(L, (lua_Number) (value)); \
+    lua_setfield(L, -2, #name);\
+
+#define SETSTRINGCONSTANT(name, value) \
+    lua_pushstring(L, value); \
     lua_setfield(L, -2, #name);\
 
 static void LuaInit(lua_State* L)
@@ -645,6 +676,10 @@ static void LuaInit(lua_State* L)
     SETCONSTANT(REWARDED_BREAK_ERROR, REWARDED_BREAK_ERROR);
     SETCONSTANT(REWARDED_BREAK_SUCCESS, REWARDED_BREAK_SUCCESS);
     SETCONSTANT(REWARDED_BREAK_START, REWARDED_BREAK_START);
+
+    SETSTRINGCONSTANT(DEVICE_CATEGORY_DESKTOP, DEVICE_CATEGORY_DESKTOP);
+    SETSTRINGCONSTANT(DEVICE_CATEGORY_MOBILE, DEVICE_CATEGORY_MOBILE);
+    SETSTRINGCONSTANT(DEVICE_CATEGORY_TABLET, DEVICE_CATEGORY_TABLET);
 
     lua_pop(L, 1);
     assert(top == lua_gettop(L));

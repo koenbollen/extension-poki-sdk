@@ -71,6 +71,10 @@ function init(self)
 
 		-- local engine_info = sys.get_engine_info()
 		-- poki_sdk.set_debug(engine_info.is_debug)
+
+		-- local device_info = poki_sdk.get_device_info()
+		-- print("get_device_info", json.encode(device_info)) -- { category = "desktop" | "mobile" | "tablet" }
+		-- print(poki_sdk.DEVICE_CATEGORY_DESKTOP, "desktop?", device_info and device_info.category == poki_sdk.DEVICE_CATEGORY_DESKTOP)
 	end
 	sound.play("#sound")
 end
