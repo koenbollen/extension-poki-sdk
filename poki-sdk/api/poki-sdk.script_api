@@ -76,7 +76,7 @@
     parameters:
     - name: error
       type: string
-      
+
 #*****************************************************************************************************
 
   - name: shareable_url
@@ -85,19 +85,19 @@
     parameters:
     - name: params
       type: table
-    
+
     - name: callback
       type: function
-      
+
 #*****************************************************************************************************
 
   - name: get_url_param
     type: function
-    
+
     parameters:
     - name: key
       type: string
-    
+
     return:
     - name: value
       type: string|nil
@@ -187,13 +187,33 @@
           desc: The rejection message on failure, or `nil` on success.
 
 #*****************************************************************************************************
-  
+
   - name: open_external_link
     type: function
 
     parameters:
     - name: url
       type: string
+
+#*****************************************************************************************************
+
+  - name: show_leaderboard
+    type: function
+
+    parameters:
+    - name: leaderboard_id
+      type: number
+
+#*****************************************************************************************************
+
+  - name: submit_score
+    type: function
+
+    parameters:
+    - name: leaderboard_key
+      type: string
+    - name: score
+      type: number
 
 #*****************************************************************************************************
 

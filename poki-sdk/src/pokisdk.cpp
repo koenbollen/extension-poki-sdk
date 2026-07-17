@@ -66,6 +66,9 @@ extern "C" {
     void PokiSdkJs_GetUser(GetUserCallback callback, AsyncErrorCallback error_callback);
     void PokiSdkJs_GetToken(GetTokenCallback callback, AsyncErrorCallback error_callback);
     void PokiSdkJs_Login(LoginSuccessCallback callback, AsyncErrorCallback error_callback);
+
+    void PokiSdkJs_ShowLeaderboard(int leaderboard_id);
+    void PokiSdkJs_SubmitScore(const char* leaderboard_key, int score);
 }
 
 static dmScript::LuaCallbackInfo* pokiSdk_Callbacks[CALLBACK_SLOT_COUNT] = {0x0};
@@ -511,7 +514,7 @@ static int PokiSdk_ShareableURL(lua_State* L)
         lua_pop(L, 1);
     }
     lua_pop(L, 1);
-    
+
     DM_LUA_STACK_CHECK(L, 0);
     PokiSdk_SetCallback(L, 2, CALLBACK_SLOT_SHAREABLE_URL, "PokiSDK callback is invalid. The second argument should be a callback function.");
     PokiSdkJs_ShareableURL((ShareableURLCallback)PokiSdk_ShareableURLCallback);
@@ -586,6 +589,23 @@ static int PokiSdk_OpenExternalLink(lua_State* L)
     return 0;
 }
 
+static int PokiSdk_ShowLeaderboard(lua_State* L)
+{
+    DM_LUA_STACK_CHECK(L, 0);
+    int leaderboard_id = luaL_checkinteger(L, 1);
+    PokiSdkJs_ShowLeaderboard(leaderboard_id);
+    return 0;
+}
+
+static int PokiSdk_SubmitScore(lua_State* L)
+{
+    DM_LUA_STACK_CHECK(L, 0);
+    const char* leaderboard_key = luaL_checkstring(L, 1);
+    int score = luaL_checkinteger(L, 2);
+    PokiSdkJs_SubmitScore(leaderboard_key, score);
+    return 0;
+}
+
 // Functions exposed to Lua
 static const luaL_reg Module_methods[] =
 {
@@ -604,6 +624,8 @@ static const luaL_reg Module_methods[] =
     {"get_token", PokiSdk_GetToken},
     {"login", PokiSdk_Login},
     {"open_external_link", PokiSdk_OpenExternalLink},
+    {"show_leaderboard", PokiSdk_ShowLeaderboard},
+    {"submit_score", PokiSdk_SubmitScore},
     {0, 0}
 };
 

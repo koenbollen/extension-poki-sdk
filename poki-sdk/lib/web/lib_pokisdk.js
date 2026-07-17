@@ -2,6 +2,9 @@
 
 var LibPokiSdk = {
 
+    // We are using a weird construct here for submitScore because it's never suppose to be a global accessible function.
+    $PokiSdk__postset: '_PokiSdkJs_SubmitScore = (function() { var submitScoreCallback = null; Module.pokiSdkRegisterSubmitScore = function(callback) { submitScoreCallback = callback; delete Module.pokiSdkRegisterSubmitScore; }; return function(leaderboard_key, score) { if (typeof submitScoreCallback === "function") { submitScoreCallback(UTF8ToString(leaderboard_key), score); } }; })();',
+
     $PokiSdk: {
         // must match PokiCommercialBreakResult
         COMMERCIAL_BREAK_SUCCESS: 1,
@@ -124,7 +127,7 @@ var LibPokiSdk = {
     },
 
     PokiSdkJs_SetDebug: function(value) {
-        PokiSDK.setDebug(value); 
+        PokiSDK.setDebug(value);
     },
 
     PokiSdkJs_CaptureError: function(error) {
@@ -193,6 +196,14 @@ var LibPokiSdk = {
 
     PokiSdkJs_OpenExternalLink: function(url) {
         PokiSDK.openExternalLink(UTF8ToString(url));
+    },
+
+    PokiSdkJs_ShowLeaderboard: function(leaderboard_id) {
+        PokiSDK.showLeaderboard(leaderboard_id);
+    },
+
+    PokiSdkJs_SubmitScore: function(leaderboard_key, score) {
+        // This method is overwritten in the postset of PokiSdk to call a callback registered by the Defold extension.
     }
 }
 

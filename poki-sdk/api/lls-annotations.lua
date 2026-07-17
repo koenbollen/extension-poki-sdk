@@ -1,5 +1,5 @@
 ---@meta poki_sdk
- 
+
 ---Functions and constants for interacting with Poki SDK APIs
 poki_sdk = {}
 
@@ -35,7 +35,7 @@ function poki_sdk.commercial_break(callback) end
 ---@param callback fun(self: userdata, status: PokiRewardedBreakStatus) Called when the rewarded break starts and when it finishes, with one of the statuses: `poki_sdk.REWARDED_BREAK_ERROR`, `poki_sdk.REWARDED_BREAK_START`, `poki_sdk.REWARDED_BREAK_SUCCESS`.
 ---@overload fun(callback: fun(self: userdata, status: PokiRewardedBreakStatus))
 function poki_sdk.rewarded_break(size, callback) end
- 
+
 ---Enables or disables debug mode.
 ---@param is_debug boolean
 function poki_sdk.set_debug(is_debug) end
@@ -49,7 +49,6 @@ function poki_sdk.shareable_url(params, callback) end
 ---Returns the value of a URL query parameter by key.
 ---@param key string The query parameter key.
 ---@return string|nil value The query parameter value, or `nil` if the parameter was not found.
-
 function poki_sdk.get_url_param(key) end
 ---Sends a custom analytics event to Poki.
 ---@param category string
@@ -60,7 +59,7 @@ function poki_sdk.measure(category, what, action) end
 ---@param topPercent number Position from the top in percent.
 ---@param topPx number Position from the top in pixels.
 function poki_sdk.move_pill(topPercent, topPx) end
- 
+
 ---Retrieves the currently logged-in Poki user.
 ---@param callback fun(self: userdata, user: {username: string, avatar_url: string}|nil, error: string|nil) `user` is a table with `username` and `avatar_url`, or `nil` if no user is logged in. `error` is the rejection message if user accounts are unavailable, or `nil` otherwise.
 function poki_sdk.get_user(callback) end
@@ -73,4 +72,11 @@ function poki_sdk.login(callback) end
 ---Opens an external link in a new browser tab.
 ---@param url string
 function poki_sdk.open_external_link(url) end
+---Opens a Poki leaderboard by id.
+---@param leaderboard_id number
+function poki_sdk.show_leaderboard(leaderboard_id) end
+---Submits a score to a Poki leaderboard by key.
+---@param leaderboard_key string
+---@param score number
+function poki_sdk.submit_score(leaderboard_key, score) end
 return poki_sdk

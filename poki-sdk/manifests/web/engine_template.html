@@ -9,6 +9,13 @@
 	<script id='poki-sdk-setup' type='text/javascript'>
 		var isWasmLoaded = false;
 		var isPokiSDKInited = false;
+		let pendingSubmitScoreCallback = null;
+		let tryRegisterSubmitScoreCallback = function() {
+			if (pendingSubmitScoreCallback && typeof Module.pokiSdkRegisterSubmitScore === 'function') {
+				Module.pokiSdkRegisterSubmitScore(pendingSubmitScoreCallback);
+				pendingSubmitScoreCallback = null;
+			}
+		};
 		var runFunc = function() {
 			if (isPokiSDKInited && isWasmLoaded) {
 				Module.runApp("canvas");
@@ -16,6 +23,7 @@
 		}
 		Module['onRuntimeInitialized'] = function() {
 			isWasmLoaded = true;
+			tryRegisterSubmitScoreCallback();
 			runFunc();
 		};
 		function poki_sdk_loaded() {
@@ -30,7 +38,12 @@
 					isLoadFinished = true;
 				}
 			});
-			PokiSDK.init().then(()=>{
+			PokiSDK.init({
+				submitScore: callback => {
+					pendingSubmitScoreCallback = callback;
+					tryRegisterSubmitScoreCallback();
+				}
+			}).then(()=>{
 					isPokiSDKInited = true;
 					runFunc();
 				}, ()=>{
